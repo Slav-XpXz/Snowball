@@ -15,4 +15,7 @@ int main() {
     generate_pawn_moves(b, moves);
 
     std::cout << moves.size() << "\n";
+    print_bb(knight_attacks[A1]);
+    print_bb(knight_attacks[E4]); 
+    print_bb(knight_attacks[H8]); 
 }
