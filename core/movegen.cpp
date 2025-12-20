@@ -1,6 +1,57 @@
 #include "movegen.h"
 #include "bitboard.h"
+#include "attacks.h"
 #include <vector>
+
+void generate_king_moves(const Board& board, std::vector<Move>& moves) {
+	Color us = board.side_to_move;
+	Color them = (us == WHITE) ? BLACK : WHITE;
+
+	Bitboard king = board.pieces[us][KING];
+
+	if (!king) return;
+
+	int from = pop_lsb_sq(king);
+
+	Bitboard attacks = king_attacks[from];
+	Bitboard quiet = attacks & ~board.occ_all;
+	Bitboard captures = attacks & board.occ[them];
+
+	while (quiet) {
+		int to = pop_lsb_sq(quiet);
+		moves.push_back(make_move(from, to));
+	}
+	while (captures) {
+		int to = pop_lsb_sq(captures);
+		moves.push_back(make_move(from, to, CAPTURE));
+	}
+
+	if (us == WHITE) {
+		if (board.castling_rights & WK) {
+			if (!(board.occ_all & (BB(F1) | BB(G1)))) {
+				moves.push_back(make_move(E1, G1, CASTLING));
+
+			}
+		}
+		if (board.castling_rights & WQ) {
+			if (!(board.occ_all & (BB(D1) | BB(C1) | BB(B1)))) {
+				moves.push_back(make_move(E1, C1, CASTLING));
+			}
+		}
+	}
+	else {
+		if (board.castling_rights & BK) {
+			if (!(board.occ_all & (BB(F8) | BB(G8)))) {
+				moves.push_back(make_move(E8, G8, CASTLING));
+			}
+		}
+		if (board.castling_rights & BQ) {
+			if (!(board.occ_all & (BB(D8) | BB(C8) | BB(B8)))) {
+				moves.push_back(make_move(E8, C8, CASTLING));
+			}
+		}
+	}
+}
 
 void generate_pawn_moves(const Board& board, std::vector<Move>& moves) {
 

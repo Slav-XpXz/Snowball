@@ -6,16 +6,14 @@
 #include <iostream>
 
 int main() {
+
+    std::vector<Move> moves;
     init_leaper_attacks();
 
     Board b;
-    b.set_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    std::vector<Move> moves;
+    b.set_fen("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
     moves.clear();
-    generate_pawn_moves(b, moves);
+    generate_king_moves(b, moves);
 
-    std::cout << moves.size() << "\n";
-    print_bb(knight_attacks[A1]);
-    print_bb(knight_attacks[E4]); 
-    print_bb(knight_attacks[H8]); 
+    print_bb(king_attacks[E1]);
 }
