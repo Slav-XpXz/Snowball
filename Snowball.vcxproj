@@ -132,6 +132,7 @@
     <ClCompile Include="core\attacks.cpp" />
     <ClCompile Include="core\make_unmake.cpp" />
     <ClCompile Include="core\movegen.cpp" />
+    <ClCompile Include="core\perft.cpp" />
     <ClCompile Include="Snowball.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +141,7 @@
     <ClInclude Include="core\board.h" />
     <ClInclude Include="core\move.h" />
     <ClInclude Include="core\movegen.h" />
+    <ClInclude Include="core\perft.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\board.cpp">

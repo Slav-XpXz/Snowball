@@ -30,6 +30,9 @@
     <ClCompile Include="core\board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="core\perft.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\attacks.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\movegen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\perft.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

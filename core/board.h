@@ -1,5 +1,6 @@
 #pragma once
 #include "bitboard.h"
+#include "move.h"
 #include <string>
 #include <array>
 
@@ -10,6 +11,7 @@ enum Color : int {
 };
 
 enum Piece : int {
+	NO_PIECE = -1,
 	PAWN = 0,
 	KNIGHT,
 	BISHOP,
@@ -19,17 +21,18 @@ enum Piece : int {
 	PIECE_NB
 };
 
-enum PieceType : int {
-	NO_PIECE = -1
-};
-
 enum Castling : int {
 	WK = 1 << 0,
 	WQ = 1 << 1,
 	BK = 1 << 2,
 	BQ = 1 << 3
 };
-
+struct Undo {
+	Bitboard pieces[COLOR_NB][PIECE_NB];
+	int castling_rights;
+	int ep_square;
+	int halfmove_clock;
+};
 struct Board {
 	
 	Bitboard pieces[COLOR_NB][PIECE_NB];
@@ -50,5 +53,9 @@ struct Board {
 	void clear();
 	void update_occupancy();
 	bool set_fen(const std::string& fen);
+
+	void make_move(Move m, Undo& u);
+	void unmake_move(const Undo& u);
+
 
 };
