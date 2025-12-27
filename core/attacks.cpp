@@ -52,3 +52,30 @@ void print_bb(Bitboard b) {
     }
     std::cout << "\n";
 }
+
+Bitboard bishop_attacks(int sq, Bitboard occ) {
+    Bitboard attacks = 0;
+    int r = sq / 8;
+    int f = sq % 8;
+
+    // Northeast
+    for (int rr = r + 1, ff = f + 1; rr <= 7 && f <= 7; rr++, ff++) {
+        int s = rr * 8 + ff;
+        attacks |= BB(s);
+        if (occ & BB(s)) break;
+    }
+
+    //Northwest
+    for(int rr = r + 1, ff = f - 1; rr <= 7 && ff >= 0; rr++, ff-- ) {
+		int s = rr * 8 + ff;
+		attacks |= BB(s);
+		if (occ & BB(s)) break;
+	}
+
+    //Southeast
+    for (int rr = r - 1, ff = f + 1; rr >= 0 && ff <= 7; rr--, ff++) {
+        int s = rr * 8 + ff;
+        attacks |= BB(s);
+        if (occ & BB(s)) break;
+    }
+}

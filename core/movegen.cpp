@@ -7,6 +7,7 @@
 void generate_moves(const Board& board, std::vector<Move>& moves) {
 	generate_pawn_moves(board, moves);
 	generate_king_moves(board, moves);
+	generate_knight_moves(board, moves);
 }
 void generate_king_moves(const Board& board, std::vector<Move>& moves) {
 	Color us = board.side_to_move;
@@ -165,6 +166,30 @@ void generate_pawn_moves(const Board& board, std::vector<Move>& moves) {
 			if ((pawns >> 7) & ep & ~FILE_A) {
 				moves.push_back(make_move(board.ep_square + 7, board.ep_square, EN_PASSANT));
 			}
+		}
+	}
+}
+void generate_knight_moves(const Board& board, std::vector<Move>& moves) {
+
+	Color us = board.side_to_move;
+	Color them = (us == WHITE) ? BLACK : WHITE;
+
+	Bitboard knights = board.pieces[us][KNIGHT];
+	Bitboard own_occ = board.occ[us];
+	Bitboard enemy_occ = board.occ[them];
+
+	while (knights) {
+		int from = pop_lsb_sq(knights);
+
+		Bitboard attacks = knight_attacks[from] & ~own_occ;
+
+		while (attacks) {
+			int to = pop_lsb_sq(attacks);
+
+			if (enemy_occ & BB(to))
+				moves.push_back(make_move(from, to, CAPTURE));
+			else
+				moves.push_back(make_move(from, to));
 		}
 	}
 }
