@@ -10,4 +10,6 @@ constexpr Bitboard FILE_G = FILE_A << 6;
 
 void init_leaper_attacks();
 void print_bb(Bitboard b);
-Bitboard bishop_attacks(int sq, Bitboard occ);
+Bitboard bishop_attacks(int sq, Bitboard occ, Bitboard own_occ);
+Bitboard rook_attacks(int sq, Bitboard occ, Bitboard own_occ);
+Bitboard queen_attacks(int sq, Bitboard occ, Bitboard own_occ);

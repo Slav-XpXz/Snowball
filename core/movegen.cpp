@@ -8,6 +8,9 @@ void generate_moves(const Board& board, std::vector<Move>& moves) {
 	generate_pawn_moves(board, moves);
 	generate_king_moves(board, moves);
 	generate_knight_moves(board, moves);
+	generate_bishop_moves(board, moves);
+	generate_rook_moves(board, moves);
+	generate_queen_moves(board, moves);
 }
 void generate_king_moves(const Board& board, std::vector<Move>& moves) {
 	Color us = board.side_to_move;
@@ -182,6 +185,80 @@ void generate_knight_moves(const Board& board, std::vector<Move>& moves) {
 		int from = pop_lsb_sq(knights);
 
 		Bitboard attacks = knight_attacks[from] & ~own_occ;
+
+		while (attacks) {
+			int to = pop_lsb_sq(attacks);
+
+			if (enemy_occ & BB(to))
+				moves.push_back(make_move(from, to, CAPTURE));
+			else
+				moves.push_back(make_move(from, to));
+		}
+	}
+}
+
+void generate_bishop_moves(const Board& board, std::vector<Move>& moves) {
+	Color us = board.side_to_move;
+	Color them = (us == WHITE) ? BLACK : WHITE;
+	Bitboard bishops = board.pieces[us][BISHOP];
+	Bitboard own_occ = board.occ[us];
+	Bitboard enemy_occ = board.occ[them];
+
+	while (bishops) {
+		int from = pop_lsb_sq(bishops);
+
+		Bitboard attacks = bishop_attacks(from, board.occ_all, board.occ[us]);
+		while (attacks) {
+			int to = pop_lsb_sq(attacks);
+
+			if (enemy_occ & BB(to))
+				moves.push_back(make_move(from, to, CAPTURE));
+			else
+				moves.push_back(make_move(from, to));
+		}
+	}
+}
+
+void generate_rook_moves(const Board& board, std::vector<Move>& moves) {
+	Color us = board.side_to_move;
+	Color them = (us == WHITE) ? BLACK : WHITE;
+
+	Bitboard rooks = board.pieces[us][ROOK];
+	Bitboard own_occ = board.occ[us];
+	Bitboard enemy_occ = board.occ[them];
+
+	while (rooks) {
+		int from = pop_lsb_sq(rooks);
+
+		Bitboard attacks = rook_attacks(from, board.occ_all, board.occ[us]);
+		while (attacks) {
+			int to = pop_lsb_sq(attacks);
+
+			if (enemy_occ & BB(to)) {
+				moves.push_back(make_move(from, to, CAPTURE));
+			}
+			else {
+				moves.push_back(make_move(from, to));
+			}
+		}
+	}
+}
+void generate_queen_moves(const Board& board, std::vector<Move>& moves) {
+
+	Color us = board.side_to_move;
+	Color them = (us == WHITE) ? BLACK : WHITE;
+
+	Bitboard queens = board.pieces[us][QUEEN];
+	Bitboard enemy_occ = board.occ[them];
+
+	while (queens) {
+		int from = pop_lsb_sq(queens);
+
+		Bitboard attacks = queen_attacks(
+			from,
+			board.occ_all,
+			board.occ[us]
+		);
 
 		while (attacks) {
 			int to = pop_lsb_sq(attacks);

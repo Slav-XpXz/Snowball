@@ -53,29 +53,87 @@ void print_bb(Bitboard b) {
     std::cout << "\n";
 }
 
-Bitboard bishop_attacks(int sq, Bitboard occ) {
+Bitboard bishop_attacks(int sq, Bitboard occ, Bitboard own_occ) {
     Bitboard attacks = 0;
     int r = sq / 8;
     int f = sq % 8;
 
     // Northeast
-    for (int rr = r + 1, ff = f + 1; rr <= 7 && f <= 7; rr++, ff++) {
+    for (int rr = r + 1, ff = f + 1; rr <= 7 && ff <= 7; rr++, ff++) {
         int s = rr * 8 + ff;
+        if (own_occ & BB(s)) break;
         attacks |= BB(s);
         if (occ & BB(s)) break;
     }
 
-    //Northwest
-    for(int rr = r + 1, ff = f - 1; rr <= 7 && ff >= 0; rr++, ff-- ) {
-		int s = rr * 8 + ff;
-		attacks |= BB(s);
-		if (occ & BB(s)) break;
-	}
+    // Northwest
+    for (int rr = r + 1, ff = f - 1; rr <= 7 && ff >= 0; rr++, ff--) {
+        int s = rr * 8 + ff;
+        if (own_occ & BB(s)) break;
+        attacks |= BB(s);
+        if (occ & BB(s)) break;
+    }
 
-    //Southeast
+    // Southeast
     for (int rr = r - 1, ff = f + 1; rr >= 0 && ff <= 7; rr--, ff++) {
         int s = rr * 8 + ff;
+        if (own_occ & BB(s)) break;
         attacks |= BB(s);
         if (occ & BB(s)) break;
     }
+
+    // Southwest
+    for (int rr = r - 1, ff = f - 1; rr >= 0 && ff >= 0; rr--, ff--) {
+        int s = rr * 8 + ff;
+        if (own_occ & BB(s)) break;
+        attacks |= BB(s);
+        if (occ & BB(s)) break;
+    }
+
+    return attacks;
+}
+
+
+Bitboard rook_attacks(int sq, Bitboard occ, Bitboard own_occ) {
+    Bitboard attacks = 0;
+    int r = sq / 8;
+    int f = sq % 8;
+
+    // North
+    for (int rr = r + 1; rr <= 7; rr++) {
+        int s = rr * 8 + f;
+        if (own_occ & BB(s)) break;
+        attacks |= BB(s);
+        if (occ & BB(s)) break;
+    }
+
+    // South
+    for (int rr = r - 1; rr >= 0; rr--) {
+        int s = rr * 8 + f;
+        if (own_occ & BB(s)) break;
+        attacks |= BB(s);
+        if (occ & BB(s)) break;
+    }
+
+    // East
+    for (int ff = f + 1; ff <= 7; ff++) {
+        int s = r * 8 + ff;
+        if (own_occ & BB(s)) break;
+        attacks |= BB(s);
+        if (occ & BB(s)) break;
+    }
+
+    // West
+    for (int ff = f - 1; ff >= 0; ff--) {
+        int s = r * 8 + ff;
+        if (own_occ & BB(s)) break;
+        attacks |= BB(s);
+        if (occ & BB(s)) break;
+    }
+
+    return attacks;
+}
+
+Bitboard queen_attacks(int sq, Bitboard occ, Bitboard own_occ) {
+    return bishop_attacks(sq, occ, own_occ) | rook_attacks(sq, occ, own_occ);
 }
