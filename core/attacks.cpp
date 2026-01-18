@@ -1,4 +1,5 @@
 #include "attacks.h"
+#include "board.h"
 #include <iostream>
 
 Bitboard knight_attacks[64];
@@ -136,4 +137,19 @@ Bitboard rook_attacks(int sq, Bitboard occ, Bitboard own_occ) {
 
 Bitboard queen_attacks(int sq, Bitboard occ, Bitboard own_occ) {
     return bishop_attacks(sq, occ, own_occ) | rook_attacks(sq, occ, own_occ);
+}
+
+bool is_square_attacked(const Board& board, int sq, Color by) {
+
+    Bitboard target = BB(sq);
+
+    if (by == WHITE) {
+        if (((board.pieces[WHITE][PAWN] << 7) & ~FILE_H) & target) return true;
+        if (((board.pieces[WHITE][PAWN] << 9) & ~FILE_A) & target) return true;
+    }
+    else {
+        if (((board.pieces[BLACK][PAWN] >> 7) & ~FILE_A) & target) return true;
+        if (((board.pieces[BLACK][PAWN] >> 9) & ~FILE_H) & target) return true;
+    }
+
 }

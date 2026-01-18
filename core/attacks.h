@@ -13,3 +13,4 @@ void print_bb(Bitboard b);
 Bitboard bishop_attacks(int sq, Bitboard occ, Bitboard own_occ);
 Bitboard rook_attacks(int sq, Bitboard occ, Bitboard own_occ);
 Bitboard queen_attacks(int sq, Bitboard occ, Bitboard own_occ);
+bool is_square_attacked(const Board& board, int sq, Color by);
