@@ -50,3 +50,9 @@ inline int pop_lsb_sq(Bitboard& b) {
     b &= b - 1;
     return sq;
 }
+
+inline int lsb_index(uint64_t bb) {
+    unsigned long index;
+    _BitScanForward64(&index, bb);
+    return (int)index;
+}

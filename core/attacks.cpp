@@ -139,6 +139,10 @@ Bitboard queen_attacks(int sq, Bitboard occ, Bitboard own_occ) {
     return bishop_attacks(sq, occ, own_occ) | rook_attacks(sq, occ, own_occ);
 }
 
+inline int king_square(const Board& board, Color c) {
+    return lsb_index(board.pieces[c][KING]);
+}
+
 bool is_square_attacked(const Board& board, int sq, Color by) {
 
     Bitboard target = BB(sq);
@@ -152,4 +156,28 @@ bool is_square_attacked(const Board& board, int sq, Color by) {
         if (((board.pieces[BLACK][PAWN] >> 9) & ~FILE_H) & target) return true;
     }
 
+    Bitboard knights = board.pieces[by][KNIGHT];
+
+    while(knights) {
+		int from_sq = pop_lsb_sq(knights);
+		if (knight_attacks[from_sq] & target) return true;
+	}
+
+    Bitboard diag = board.pieces[by][BISHOP] | board.pieces[by][QUEEN];
+    while (diag) {
+        int from_sq = pop_lsb_sq(diag);
+        if (bishop_attacks(from_sq, board.occ_all, board.occ[by] & target)) return true;
+    }
+
+    Bitboard ortho = board.pieces[by][ROOK] | board.pieces[by][QUEEN];
+    while (ortho) {
+        int from_sq = pop_lsb_sq(ortho);
+        if (rook_attacks(from_sq, board.occ_all, board.occ[by] & target)) return true;
+    }
+
+    Bitboard kings = board.pieces[by][KING];
+    int king_sq = lsb_index(kings);
+    if(king_attacks[king_sq] & target) return true;
+
+    return false;
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "bitboard.h"
-
+#include "board.h"
 
 extern Bitboard knight_attacks[64];
 extern Bitboard king_attacks[64];
@@ -13,4 +13,5 @@ void print_bb(Bitboard b);
 Bitboard bishop_attacks(int sq, Bitboard occ, Bitboard own_occ);
 Bitboard rook_attacks(int sq, Bitboard occ, Bitboard own_occ);
 Bitboard queen_attacks(int sq, Bitboard occ, Bitboard own_occ);
+inline int king_square(const Board& board, Color c);
 bool is_square_attacked(const Board& board, int sq, Color by);

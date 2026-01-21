@@ -16,4 +16,6 @@ int main() {
     std::cout << perft(b, 1) << "\n";
     std::cout << perft(b, 2) << "\n";
     std::cout << perft(b, 3) << "\n";
+    std::cout << perft(b, 4) << "\n";
+
 }
