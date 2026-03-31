@@ -33,6 +33,12 @@
     <ClCompile Include="core\perft.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="search\eval.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="search\search.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\attacks.h">
@@ -51,6 +57,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\perft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="search\eval.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="search\search.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

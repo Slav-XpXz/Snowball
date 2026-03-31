@@ -4,18 +4,20 @@
 #include "core/move.h"
 #include "core/movegen.h"
 #include "core/perft.h"
+#include "search/search.h"
 #include <iostream>
 
 int main() {
 
-    std::vector<Move> moves;
     init_leaper_attacks();
 
     Board b;
-    b.set_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    std::cout << perft(b, 1) << "\n";
-    std::cout << perft(b, 2) << "\n";
-    std::cout << perft(b, 3) << "\n";
-    std::cout << perft(b, 4) << "\n";
+    b.set_fen("startpos");
+
+    Move best = find_best_move(b, 4);
+
+    std::cout << "Best move: "
+        << move_from(best) << " -> "
+        << move_to(best) << "\n";
 
 }

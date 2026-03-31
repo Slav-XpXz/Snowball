@@ -56,3 +56,4 @@ inline int lsb_index(uint64_t bb) {
     _BitScanForward64(&index, bb);
     return (int)index;
 }
+

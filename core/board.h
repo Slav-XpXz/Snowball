@@ -59,3 +59,6 @@ struct Board {
 
 
 };
+inline int king_square(const Board& board, Color c) {
+	return lsb_index(board.pieces[c][KING]);
+}
